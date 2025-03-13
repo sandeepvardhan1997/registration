@@ -131,12 +131,13 @@
                 status: "Sent"
             };
 
-            fetch("https://script.google.com/macros/s/AKfycbzNNZbEOHrCM_7BC3dkjgJMTnpUW2dOIr1xTt98vYw7Yb7AfDzz70BOOUWROQROdUdsjA/exec", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData)
+            fetch("https://script.google.com/macros/s/AKfycbz1qx8MWy1SkLat7NtvpQL5DLwotS_QD7gi8lhpjc8Ihjcia_KaeVnH95jVIuO_feXu9A/exec", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            mode: "no-cors",
+            body: JSON.stringify(formData)
             })
-            .then(response => response.json())
+            .then(response => response.text()) // Use `.text()` because `no-cors` prevents JSON parsing
             .then(data => {
                 loader.style.display = 'none';
                 alert("You have successfully registered!");
@@ -144,7 +145,8 @@
             .catch(error => {
                 loader.style.display = 'none';
                 alert("Error: " + error);
-            });
+             });
+
         });
     </script>
 </body>
