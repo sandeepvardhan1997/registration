@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Account</title>
+    <link rel="stylesheet" href="Sty.css">
+</head>
+<body>
+    <div class="login-container">
+        <h1>Create New Account</h1>
+        <form id="createAccountForm">
+            <div class="input-group">
+                <label for="studentName">Student Name:</label>
+                <input type="text" id="studentName" name="studentName" required>
+            </div>
+            <div class="input-group">
+                <label for="studentDOB">Date of Birth:</label>
+                <input type="date" id="studentDOB" name="studentDOB" required>
+            </div>
+            <div class="input-group">
+                <label for="studentEmail">Email ID:</label>
+                <input type="email" id="studentEmail" name="studentEmail" required>
+            </div>
+            <div class="input-group">
+                <label for="studentMobile">Mobile No:</label>
+                <input type="tel" id="studentMobile" name="studentMobile" required>
+            </div>
+            <div class="input-group">
+                <label for="newPassword">New Password:</label>
+                <input type="password" id="newPassword" name="newPassword" required>
+            </div>
+            <div class="input-group">
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+            </div>
+            <button type="submit">Create Account</button>
+        </form>
+        <div class="options">
+            <a href="index.html">Back to Login</a>
+        </div>
+    </div>
+    <script src="create_account_script.js"></script>
+</body>
+</html>
