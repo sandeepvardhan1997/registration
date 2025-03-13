@@ -4,7 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create New Account</title>
-    <link rel="stylesheet" href="Sty.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 { margin-bottom: 20px; color: #333; font-size: 24px; }
+        .input-group { margin-bottom: 20px; text-align: left; }
+        label { display: block; margin-bottom: 8px; color: #555; font-weight: bold; }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        input:focus { border-color: #007bff; outline: none; }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        button:hover { background-color: #0056b3; transform: scale(1.05); }
+        button:active { transform: scale(0.95); }
+        .options { margin-top: 20px; }
+        .options a { color: #007bff; text-decoration: none; font-weight: bold; }
+        .options a:hover { text-decoration: underline; }
+        .loader { display: none; width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid #007bff; border-radius: 50%; animation: spin 1s linear infinite; margin: 20px auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
 </head>
 <body>
     <div class="login-container">
@@ -31,15 +90,62 @@
                 <input type="password" id="newPassword" name="newPassword" required>
             </div>
             <div class="input-group">
-                <label for="confirmPassword">Confirm Password:</label>
+                <label for="confirmPassword">Re-enter Password:</label>
                 <input type="password" id="confirmPassword" name="confirmPassword" required>
             </div>
             <button type="submit">Create Account</button>
+            <div class="loader"></div>
         </form>
-        <div class="options">
-            <a href="index.html">Back to Login</a>
-        </div>
+        <div class="options"><a href="#">Back to Login</a></div>
     </div>
-    <script src="create_account_script.js"></script>
+
+    <script>
+        document.getElementById('createAccountForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const loader = document.querySelector('.loader');
+            loader.style.display = 'block';
+
+            const password = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const passwordPattern = /^(?=.*[A-Z])(?=.*[a-z]{3,})(?=.*\d{3,})(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+            if (password !== confirmPassword) {
+                loader.style.display = 'none';
+                alert("Passwords do not match!");
+                return;
+            }
+
+            if (!passwordPattern.test(password)) {
+                loader.style.display = 'none';
+                alert("Password must have at least 4 letters (1 uppercase), 3 numbers, and 1 special character.");
+                return;
+            }
+
+            const formData = {
+                studentName: document.getElementById('studentName').value,
+                studentDOB: document.getElementById('studentDOB').value,
+                studentEmail: document.getElementById('studentEmail').value,
+                studentMobile: document.getElementById('studentMobile').value,
+                newPassword: password,
+                timestamp: new Date().toLocaleString(),
+                status: "Sent"
+            };
+
+            fetch("https://script.google.com/macros/s/AKfycbzoYuCm_z_CZrI2Wc2EYT8N8kOH_F6BP5dWFYB_1lFSFJQyLzNk_x4j6XXOBhkyKKPF2w/exec", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                loader.style.display = 'none';
+                alert("You have successfully registered!");
+            })
+            .catch(error => {
+                loader.style.display = 'none';
+                alert("Error: " + error);
+            });
+        });
+    </script>
 </body>
 </html>
